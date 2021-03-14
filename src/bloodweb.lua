@@ -1,73 +1,66 @@
-local util = require('src/util')
+Bloodweb = Object:extend();
+
+require('src/image');
+
+local util = require('src/util');
 local node = require('src/node');
-local image = require('src/image');
 
-local maxEdges = util.randomChoice({ 0, 1, 2, 3, 4 });
+function Bloodweb:new()
+    self.nodes = { }
+    self.edges = { }
+    self.bloodweb = { }
+    self.directions = { };
+    self.position = Vector(200, 200);
+    self.center = Image('center', self.position);
+    self.maxEdges = util.randomChoice({ 0, 1, 2, 3, 4 });
+    self.centerNode = node.new(self.position.x, self.position.y);
 
-local nodes = { }
-local edges = { }
-local bloodweb = { }
-local directions = { };
-local position = Vector(200, 200);
-local center = image.new('center');
-local centerNode = node.new(position.x, position.y);
-local determineDirection = function()
-    if #edges == maxEdges then return nil; end
+    for i=1, self.maxEdges do
+        local dir = self:determine_direction();
+        if dir ~= nil then
+            local n, e = self.centerNode.AddNode(dir);
+            self.nodes[#self.nodes+1] = n;
+            self.edges[#self.edges+1] = e;
+            i = i + 1;
+        end
+    end
+end
+
+function Bloodweb:determine_direction()
+    if #self.edges == self.maxEdges then return nil; end
 
     local direction = util.determineDirection();
 
-    for k, v in pairs(directions) do
+    for k, v in pairs(self.directions) do
         if v == direction then
             return nil;
         end
     end
 
-    directions[#directions+1] = direction;
+    self.directions[#self.directions+1] = direction;
     
-    return directions[#directions]
+    return self.directions[#self.directions];
 end
 
-bloodweb.new = function()
-    local _web = { }
-
-    _web.Init = function()
-        for i=1, maxEdges do
-            local dir = determineDirection();
-            if dir ~= nil then
-                local n, e = centerNode.AddNode(dir);
-                nodes[#nodes+1] = n;
-                edges[#edges+1] = e;
-                i = i + 1;
-            end
-        end
-    end
-    
-    _web.Draw = function()
-        for k, v in pairs(edges) do v.Draw(); end
-        for k, v in pairs(nodes) do v.Draw(); end
-        center.Draw();
-    end
-
-    _web.Update = function(dt)
-        for k, v in pairs(nodes) do v.Update(dt); end
-        for k, v in pairs(edges) do v.Update(dt); end
-    end
-
-    _web.MouseUp = function()
-        for k, v in pairs(nodes) do
-            v.MouseUp();
-        end
-    end
-
-    _web.MouseDown = function(x, y)
-        for k, v in pairs(nodes) do
-            v.MouseDown(x, y);
-        end
-    end
-
-    _web.Init();
-
-    return _web
+function Bloodweb:draw()
+    for k, v in pairs(self.edges) do v.Draw(); end
+    for k, v in pairs(self.nodes) do v.Draw(); end
+    self.center:draw();
 end
 
-return bloodweb
+function Bloodweb:update(dt)
+    for k, v in pairs(self.nodes) do v.Update(dt); end
+    for k, v in pairs(self.edges) do v.Update(dt); end
+end
+
+function Bloodweb:mouse_up()
+    for k, v in pairs(self.nodes) do
+        v.MouseUp();
+    end
+end
+
+function Bloodweb:mouse_down(x, y)
+    for k, v in pairs(self.nodes) do
+        v.MouseDown(x, y);
+    end
+end

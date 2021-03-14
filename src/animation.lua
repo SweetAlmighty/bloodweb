@@ -1,56 +1,52 @@
 local peachy = require("library/peachy/peachy")
 
-return {
-    new = function(name, done)
-        local isUpdating = false;
-        local peachyAnim = peachy.new(
-            "assets/json/"..name..".json",
-            love.graphics.newImage("assets/imgs/"..name..".png"),
-            "Tag"
-        );
+Animation = Object:extend();
 
-        local dimensions = {
-            w = peachyAnim:getWidth(),
-            h = peachyAnim:getHeight()
-        }
+function Animation:new(name, done_callback)
+    self.isUpdating = false;
+    self.peachyAnim = peachy.new(
+        "assets/json/"..name..".json",
+        love.graphics.newImage("assets/imgs/"..name..".png"),
+        "Tag"
+    );
+    
+    self.dimensions = Vector(self.peachyAnim:getWidth(), self.peachyAnim:getHeight())
 
-        peachyAnim:onLoop(
-            function()
-                local direction = peachyAnim.direction == 'forward';
-                local frame = direction and 33 or 1;
-                peachyAnim:setFrame(frame);
-                isUpdating = false;
-                if done ~= nil then done(direction); end
-            end
-        );
+    self.peachyAnim:onLoop(
+        function()
+            local direction = self.peachyAnim.direction == 'forward';
 
-        return {
-            Draw = function(x, y, rot, sx, sy, ox, oy)
-                peachyAnim:draw(x, y, rot, sx, sy, ox, oy);
-            end,
+            self.isUpdating = false;
+            self.peachyAnim:setFrame(direction and 33 or 1);
 
-            Update = function(dt)
-                if isUpdating then
-                    peachyAnim:update(dt);
-                end
-            end,
+            if done_callback ~= nil then done_callback(direction); end
+        end
+    );
+end
 
-            Progress = function()
-                isUpdating = true;
-                peachyAnim.direction = 'forward';
-            end,
+function Animation:draw(x, y, rot, sx, sy, ox, oy)
+    self.peachyAnim:draw(x, y, rot, sx, sy, ox, oy);
+end
 
-            Regress = function()
-                peachyAnim.direction = 'reverse';
-            end,
-
-            Dimensions = function()
-                return dimensions;
-            end,
-
-            Updating = function()
-                return isUpdating
-            end,
-        }
+function Animation:update(dt)
+    if self.isUpdating then
+        self.peachyAnim:update(dt);
     end
-}
+end
+
+function Animation:progress()
+    self.isUpdating = true;
+    self.peachyAnim.direction = 'forward';
+end
+
+function Animation:regress()
+    self.peachyAnim.direction = 'reverse';
+end
+
+function Animation:get_dimensions()
+    return self.dimensions;
+end
+
+function Animation:is_updating()
+    return self.isUpdating;
+end

@@ -1,21 +1,17 @@
-return {
-    new = function(name)
-        local position = Vector(200, 200);
-        local image = love.graphics.newImage("assets/imgs/"..name..".png");
-        
-        local offset = {
-            x = image:getWidth()/2,
-            y = image:getHeight()/2
-        }
+Image = Object:extend();
 
-        return {
-            Draw = function()
-                love.graphics.draw(image, position.x - offset.x, position.y - offset.y)
-            end,
+function Image:new(name, position)
+    self.position = position;
+    self.image = love.graphics.newImage("assets/imgs/"..name..".png");
+    self.image:setFilter("nearest", "nearest");
+    
+    self.offset = Vector(self.image:getWidth(), self.image:getHeight())/2
+end
 
-            SetPosition = function(x, y)
-                position = Vector(x, y)
-            end
-        }
-    end
-}
+function Image:draw()
+    love.graphics.draw(self.image, self.position.x - self.offset.x, self.position.y - self.offset.y)
+end
+
+function Image:set_position(x, y)
+    position = Vector(x, y)
+end

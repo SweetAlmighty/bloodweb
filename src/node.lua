@@ -1,6 +1,6 @@
 local util = require('src/util');
 local edge = require('src/edge');
-local animation = require('src/animation');
+require('src/animation');
 
 local node = { }
 
@@ -18,8 +18,8 @@ node.new = function(x, y)
     local edges = { };
     local directions = { };
     local position = Vector(x, y);
-    local circle = animation.new('circle');
-    local dimension = circle.Dimensions();
+    local circle = Animation('circle');
+    local dimension = circle:get_dimensions();
     local maxEdges = util.randomChoice({ 0, 1, 2, 3, 4 });
 
     local _circle = {
@@ -42,21 +42,21 @@ node.new = function(x, y)
 
     _node.MouseUp = function()
         mouseDown = false;
-        circle.Regress();
+        circle:regress();
     end
 
     _node.Position = function() return position; end
 
-    _node.Update = function(dt) circle.Update(dt); end
+    _node.Update = function(dt) circle:update(dt); end
 
     _node.AddEdge = function(edge) edges[#edges+1] = edge; end 
 
-    _node.Draw = function() circle.Draw(position.x, position.y, rot, 1, 1, dimension.w/2, dimension.h/2); end
+    _node.Draw = function() circle:draw(position.x, position.y, rot, 1, 1, dimension.x/2, dimension.y/2); end
 
     _node.MouseDown = function(x, y)
         mouseDown = true;
         if util.pointInCircle(x, y, _circle) then
-            circle.Progress();
+            circle:progress();
         end
     end
 

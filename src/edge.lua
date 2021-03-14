@@ -1,5 +1,5 @@
 local util = require('src/util')
-local animation = require('src/animation')
+require('src/animation')
 
 --[[
 local animDone = false;
@@ -11,11 +11,11 @@ end
 return {
     new = function(to, from)
         local nodes = { to, from }
-        local stem = animation.new('stem');
+        local stem = Animation('stem');
 
         local toPos = to.Position();
         local fromPos = from.Position();
-        local dimension = stem.Dimensions();
+        local dimension = stem:get_dimensions();
         local _to = (toPos - fromPos).normalized;
 
         local angle = util.lookAt(Vector(toPos.x, 400), fromPos, toPos);
@@ -24,10 +24,10 @@ return {
         toPos = toPos + (15 * -_to)
         
         return {
-            Update = function(dt) stem.Update(dt); end,
+            Update = function(dt) stem:update(dt); end,
             GetNode = function(index) return nodes[index]; end,
             Draw = function()
-                stem.Draw(toPos.x, toPos.y, angle, 1, 1, dimension.w/2, 0);
+                stem:draw(toPos.x, toPos.y, angle, 1, 1, dimension.x/2, 0);
             end,
         }
     end
