@@ -1,5 +1,7 @@
-local util = require('src/util')
-require('src/animation')
+Edge = Object:extend();
+
+require('src/animation');
+local util = require('src/util');
 
 --[[
 local animDone = false;
@@ -8,27 +10,29 @@ local done = function(direction)
 end
 ]]
 
-return {
-    new = function(to, from)
-        local nodes = { to, from }
-        local stem = Animation('stem');
+function Edge:new(to, from)
+    self.nodes = { to, from }
+    self.stem = Animation('stem');
+    self.position = to:get_position();
+    self.dimension = self.stem:get_dimensions();
 
-        local toPos = to.Position();
-        local fromPos = from.Position();
-        local dimension = stem:get_dimensions();
-        local _to = (toPos - fromPos).normalized;
+    local fromPos = from:get_position();
+    local direction = (self.position - fromPos).normalized;
 
-        local angle = util.lookAt(Vector(toPos.x, 400), fromPos, toPos);
+    self.angle = util.lookAt(Vector(self.position.x, 400), fromPos, self.position);
 
-        -- Push back into center
-        toPos = toPos + (15 * -_to)
-        
-        return {
-            Update = function(dt) stem:update(dt); end,
-            GetNode = function(index) return nodes[index]; end,
-            Draw = function()
-                stem:draw(toPos.x, toPos.y, angle, 1, 1, dimension.x/2, 0);
-            end,
-        }
-    end
-}
+    -- Push back into center
+    self.position = self.position + (15 * -direction)
+end
+
+function Edge:update(dt)
+    self.stem:update(dt);
+end
+
+function Edge:GetNode(index)
+    return self.nodes[index];
+end
+
+function Edge:draw()
+    self.stem:draw(self.position.x, self.position.y, self.angle, 1, 1, self.dimension.x/2, 0);
+end

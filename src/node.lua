@@ -1,8 +1,8 @@
-local util = require('src/util');
-local edge = require('src/edge');
-require('src/animation');
+Node = Object:extend();
 
-local node = { }
+require('src/edge');
+require('src/animation');
+local util = require('src/util');
 
 --[[
 local animDone = false;
@@ -11,18 +11,16 @@ local done = function(direction)
 end
 ]]
 
-local mouseDown = false;
+function Node:new(x, y)
+    self.edges = { };
+    self.directions = { };
+    self.mouseDown = false;
+    self.position = Vector(x, y);
+    self.circle = Animation('circle');
+    self.dimension = self.circle:get_dimensions();
+    self.maxEdges = util.randomChoice({ 0, 1, 2, 3, 4 });
 
-node.new = function(x, y)
-    local _node = { }
-    local edges = { };
-    local directions = { };
-    local position = Vector(x, y);
-    local circle = Animation('circle');
-    local dimension = circle:get_dimensions();
-    local maxEdges = util.randomChoice({ 0, 1, 2, 3, 4 });
-
-    local _circle = {
+    self._circle = {
         x = x,
         y = y,
         radius = 16
@@ -30,37 +28,37 @@ node.new = function(x, y)
 
     local to = Vector(x, 400)
     local from = Vector(200, 200)
-    local rot = util.lookAt(to, from, position);
-
-    _node.AddNode = function(dir)
-        local pos = position + (dir * 33);
-        local newNode = node.new(pos.x, pos.y);
-        local edge = edge.new(newNode, _node);
-        newNode.AddEdge(edge);
-        return newNode, edge;
-    end
-
-    _node.MouseUp = function()
-        mouseDown = false;
-        circle:regress();
-    end
-
-    _node.Position = function() return position; end
-
-    _node.Update = function(dt) circle:update(dt); end
-
-    _node.AddEdge = function(edge) edges[#edges+1] = edge; end 
-
-    _node.Draw = function() circle:draw(position.x, position.y, rot, 1, 1, dimension.x/2, dimension.y/2); end
-
-    _node.MouseDown = function(x, y)
-        mouseDown = true;
-        if util.pointInCircle(x, y, _circle) then
-            circle:progress();
-        end
-    end
-
-    return _node;
+    self.rot = util.lookAt(to, from, self.position);
 end
 
-return node;
+function Node:add_node(dir)
+    local pos = self.position + (dir * 33);
+    local newNode = Node(pos.x, pos.y);
+    local edge = Edge(newNode, self);
+    newNode:add_edge(edge);
+    return newNode, edge;
+end
+
+function Node:mouse_up()
+    self.mouseDown = false;
+    self.circle:regress();
+end
+
+function Node:get_position() return self.position; end
+
+function Node:mouse_down(x, y)
+    self.mouseDown = true;
+    if util.pointInCircle(x, y, self._circle) then self.circle:progress(); end
+end
+
+function Node:add_edge(edge)
+    self.edges[#self.edges+1] = edge;
+end
+
+function Node:update(dt)
+    self.circle:update(dt);
+end
+
+function Node:draw()
+    self.circle:draw(self.position.x, self.position.y, self.rot, 1, 1, self.dimension.x/2, self.dimension.y/2);
+end
