@@ -1,38 +1,35 @@
-Edge = Object:extend();
+--local util = require('src/util')
 
-require('src/animation');
-local util = require('src/util');
+Edge = Object:extend()
 
---[[
-local animDone = false;
-local done = function(direction)
-    animDone = true;
-end
-]]
+function Edge:new(from, to)
+    self.connections = { from, to }
+        
+    self.stem = Animation('stem')
+    self.position = from:get_position()
+    self.dimension = self.stem:get_dimensions()
 
-function Edge:new(to, from)
-    self.nodes = { to, from }
-    self.stem = Animation('stem');
-    self.position = to:get_position();
-    self.dimension = self.stem:get_dimensions();
+    local toPos = to:get_position()
+    local direction = (self.position - toPos).normalized
 
-    local fromPos = from:get_position();
-    local direction = (self.position - fromPos).normalized;
-
-    self.angle = util.lookAt(Vector(self.position.x, 400), fromPos, self.position);
+    self.angle = util.lookAt(Vector(self.position.x, 400), toPos, self.position)
 
     -- Push back into center
     self.position = self.position + (15 * -direction)
 end
 
 function Edge:update(dt)
-    self.stem:update(dt);
+    self.stem:update(dt)
 end
 
 function Edge:GetNode(index)
-    return self.nodes[index];
+    return self.connections[index]
 end
 
 function Edge:draw()
-    self.stem:draw(self.position.x, self.position.y, self.angle, 1, 1, self.dimension.x/2, 0);
+    self.stem:draw(self.position.x, self.position.y, self.angle, 1, 1, self.dimension.x/2, 0)
+end
+
+function Edge:update(dt)
+    self.stem:update(dt)
 end
