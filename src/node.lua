@@ -7,9 +7,17 @@ function Node:new(x, y)
     self.connections = { }
     self.mouse_down = false
     self.position = Vector(x, y)
-    self.drawable = Animation('circle')
-    self.dimension = self.drawable:get_dimensions()
+    self.drawable = Animation('circle',
+        function(forward)
+            self.full = forward
+            if not forward then
+                self.edge:set_shit(true)
+                self.edge:on_mouse_up()
+            end
+        end
+    )
     self.max_edges = util.randomChoice({ 1, 2, 3 })
+    self.dimension = self.drawable:get_dimensions()
 
     self.circle = {
         x = x,
@@ -23,10 +31,12 @@ function Node:rotate_towards(to)
     self.rotation = util.lookAt(Vector(self.position.x, 400), toPos, self.position)
 end
 
-function Node:add_connection(node, direction, stem)
-    self.stem = stem
-    self.directions[#self.directions+1] = direction
+function Node:add_connection(node, direction, edge)
+    self.edge = edge
     self.connections[#self.connections+1] = node
+    self.directions[#self.directions+1] = direction
+    
+    self:rotate_towards(node)
 end
 
 function Node:draw()
@@ -51,23 +61,24 @@ function Node:determine_direction()
     return self.directions[#self.directions]
 end
 
---local stem_done = false
---function Node:on_stem_done()
---    stem_done = true
---end
+function Node:set_full(full)
+    self.full = full 
+end
+
+function Node:is_full()
+    return self.full
+end
+
+function Node:selected(x, y)
+    return util.pointInCircle(x, y, self.circle) and self.connections[1]:is_full()
+end
 
 function Node:on_mouse_down(x, y)
-    self.mouse_down = true
-    if util.pointInCircle(x, y, self.circle) then
-        --if stem_done then
-            self.drawable:progress()
-        --else
-        --    self.stem:on_mouse_down()
-        --end
-    end
+    self.drawable:progress()
 end
 
 function Node:on_mouse_up()
-    self.mouse_down = false
-    self.drawable:regress()
+    if not self.full then
+        self.drawable:regress()
+    end
 end

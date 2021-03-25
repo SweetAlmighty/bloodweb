@@ -9,10 +9,13 @@ function Bloodweb:new()
     Bloodweb.super:new()
 
     self.root = Bloodweb.super:add_node(200, 200)
+
     self.root.drawable = Image('center', self.root:get_position())
     self.root.drawable.update = function() end
-    self.root.drawable.progress = function() end
     self.root.drawable.regress = function() end
+    self.root.drawable.progress = function() end
+
+    self.root:set_full(true)
     self.root.draw = function() self.root.drawable:draw() end
 
     stack[#stack+1] = self.root
@@ -30,12 +33,9 @@ function Bloodweb:breadth_first_search()
             local pos = node:get_position() + (direction * 46)
             local new_node = Bloodweb.super:add_node(pos.x, pos.y)
 
-            Bloodweb.super:add_edge(node, new_node)
+            local edge = Bloodweb.super:add_edge(node, new_node)
 
-            node:add_connection(new_node, direction)
-            new_node:add_connection(node, -direction, Bloodweb.super.edges[#Bloodweb.super.edges])
-
-            new_node:rotate_towards(node)
+            new_node:add_connection(node, -direction, edge)
 
             stack[#stack+1] = new_node
 
@@ -55,11 +55,10 @@ function Bloodweb:update(dt)
 end
 
 function Bloodweb:mouse_up()
-    --for _, v in pairs(Bloodweb.super.edges) do v:on_mouse_up() end
+    for _, v in pairs(Bloodweb.super.edges) do v:on_mouse_up() end
     for _, v in pairs(Bloodweb.super.nodes) do v:on_mouse_up() end
 end
 
 function Bloodweb:mouse_down(x, y)
-    --for _, v in pairs(Bloodweb.super.edges) do v:on_mouse_down(x, y) end
-    for _, v in pairs(Bloodweb.super.nodes) do v:on_mouse_down(x, y) end
+    for _, v in pairs(Bloodweb.super.edges) do v:on_mouse_down(x, y) end
 end
