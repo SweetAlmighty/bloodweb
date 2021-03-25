@@ -1,5 +1,7 @@
 *.aseprite
 
+.luacheckrc
+
 # Applications
 *.app
 *.exe
@@ -12,4 +14,3 @@
 *.flv
 *.mov
 *.wmv
-

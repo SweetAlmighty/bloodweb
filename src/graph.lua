@@ -13,6 +13,4 @@ function Graph:add_node(x, y)
     return self.nodes[#self.nodes]
 end
 
-function Graph:add_edge(from, to)
-    self.edges[#self.edges+1] = Edge(from, to)
-end
+function Graph:add_edge(from, to) self.edges[#self.edges+1] = Edge(from, to) end

@@ -1,5 +1,6 @@
-ItemBox = Object:extend();
+ItemBox = Object:extend()
 
+--[[
 function ItemBox:new()
 end
 
@@ -14,3 +15,4 @@ end
 
 function ItemBox:draw()
 end
+]]

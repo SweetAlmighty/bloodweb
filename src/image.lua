@@ -1,9 +1,9 @@
-Image = Object:extend();
+Image = Object:extend()
 
 function Image:new(name, position)
-    self.position = position;
-    self.image = love.graphics.newImage("assets/imgs/"..name..".png");
-    self.image:setFilter("nearest", "nearest");
+    self.position = position
+    self.image = love.graphics.newImage("assets/imgs/"..name..".png")
+    self.image:setFilter("nearest", "nearest")
     
     self.offset = Vector(self.image:getWidth(), self.image:getHeight())/2
 end

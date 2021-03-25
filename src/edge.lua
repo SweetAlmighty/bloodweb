@@ -1,35 +1,37 @@
---local util = require('src/util')
-
 Edge = Object:extend()
 
 function Edge:new(from, to)
     self.connections = { from, to }
-        
-    self.stem = Animation('stem')
-    self.position = from:get_position()
-    self.dimension = self.stem:get_dimensions()
 
-    local toPos = to:get_position()
-    local direction = (self.position - toPos).normalized
+    self.drawable = Animation('stem')
+    --,
+    --    function(dir)
+    --        to:on_stem_done()
+    --    end
+    --)
+    self.position = to:get_position()
+    self.dimension = self.drawable:get_dimensions()
 
-    self.angle = util.lookAt(Vector(self.position.x, 400), toPos, self.position)
+    local from_pos = from:get_position()
+    self.rotation = util.lookAt(Vector(self.position.x, 400), from_pos, self.position)
 
     -- Push back into center
-    self.position = self.position + (15 * -direction)
+    local direction = (self.position - from_pos).normalized
+    self.position = self.position + (16 * -direction)
 end
 
-function Edge:update(dt)
-    self.stem:update(dt)
-end
-
-function Edge:GetNode(index)
-    return self.connections[index]
-end
+function Edge:update(dt) self.drawable:update(dt) end
 
 function Edge:draw()
-    self.stem:draw(self.position.x, self.position.y, self.angle, 1, 1, self.dimension.x/2, 0)
+    self.drawable:draw(self.position.x, self.position.y, self.rotation, 1, 1, self.dimension.x/2, 0)
 end
 
-function Edge:update(dt)
-    self.stem:update(dt)
+function Edge:on_mouse_down()--x, y)
+    self.mouse_down = true
+    self.drawable:progress()
+end
+
+function Edge:on_mouse_up()
+    self.mouse_down = false
+    self.drawable:regress()
 end
