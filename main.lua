@@ -9,6 +9,7 @@ local screen_width = 400
 local screen_height = 400
 
 function love.draw()
+    love.graphics.clear(0.5, 0.5, 0.5, 1)
     lovesize.begin()
         bloodweb:draw()
     lovesize.finish()

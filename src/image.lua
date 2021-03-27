@@ -13,5 +13,5 @@ function Image:draw()
 end
 
 function Image:set_position(x, y)
-    position = Vector(x, y)
+    self.position = Vector(x, y)
 end

@@ -7,7 +7,7 @@ function Graph:new()
     self.edges = { }
 end
 
-function Graph:add_node(x, y)
+function Graph:add_node(x, y, full)
     local newNode = Node(x, y)
     self.nodes[#self.nodes+1] = newNode
     return self.nodes[#self.nodes]

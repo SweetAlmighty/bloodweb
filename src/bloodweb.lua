@@ -8,19 +8,23 @@ local stack = { }
 function Bloodweb:new()
     Bloodweb.super:new()
 
-    self.root = Bloodweb.super:add_node(200, 200)
-
+    self.root = self:add_node(200, 200, true)
     self.root.drawable = Image('center', self.root:get_position())
     self.root.drawable.update = function() end
     self.root.drawable.regress = function() end
     self.root.drawable.progress = function() end
-
-    self.root:set_full(true)
     self.root.draw = function() self.root.drawable:draw() end
 
     stack[#stack+1] = self.root
 
     self:breadth_first_search()
+end
+
+function Bloodweb:add_node(x, y, full)
+    local node = Bloodweb.super:add_node(x, y)
+    node.node_full = full
+    node.is_full = function() return node.node_full end
+    return node
 end
 
 function Bloodweb:breadth_first_search()
@@ -31,7 +35,7 @@ function Bloodweb:breadth_first_search()
         local direction = node:determine_direction()
         while direction ~= nil do
             local pos = node:get_position() + (direction * 46)
-            local new_node = Bloodweb.super:add_node(pos.x, pos.y)
+            local new_node = self:add_node(pos.x, pos.y, false)
 
             local edge = Bloodweb.super:add_edge(node, new_node)
 

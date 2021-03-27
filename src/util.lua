@@ -14,11 +14,20 @@ local _lookAt = function(to, from, center)
 
     return angle
 end
+local _shuffle = function(list)
+    local shuffled = { }
+    for _, v in ipairs(list) do
+        local pos = math.random(1, #shuffled+1)
+        table.insert(shuffled, pos, v)
+    end
+    return shuffled
+end
 
 return {
     dist = _dist,
     angle = _angle,
     lookAt = _lookAt,
+    shuffle = _shuffle,
     randomChoice = _randomChoice,
     pointInCircle =_pointInCircle,
     determineDirection = _determineDirection

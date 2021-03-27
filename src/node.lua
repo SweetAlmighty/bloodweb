@@ -1,4 +1,5 @@
 require('src/Animation')
+require('src/ItemBox')
 
 Node = Object:extend()
 
@@ -9,13 +10,13 @@ function Node:new(x, y)
     self.position = Vector(x, y)
     self.drawable = Animation('circle',
         function(forward)
-            self.full = forward
+            self.node_full = forward
             if not forward then
-                self.edge:set_shit(true)
-                self.edge:on_mouse_up()
+                self.edge:on_mouse_up(true)
             end
         end
     )
+
     self.max_edges = util.randomChoice({ 1, 2, 3 })
     self.dimension = self.drawable:get_dimensions()
 
@@ -24,6 +25,8 @@ function Node:new(x, y)
         y = y,
         radius = 16
     }
+
+    self.item_box = ItemBox(x, y)
 end
 
 function Node:rotate_towards(to)
@@ -41,6 +44,7 @@ end
 
 function Node:draw()
     self.drawable:draw(self.position.x, self.position.y, self.rotation, 1, 1, self.dimension.x/2, self.dimension.y/2)
+    self.item_box:draw()
 end
 
 function Node:update(dt) self.drawable:update(dt) end
@@ -61,24 +65,17 @@ function Node:determine_direction()
     return self.directions[#self.directions]
 end
 
-function Node:set_full(full)
-    self.full = full 
-end
-
-function Node:is_full()
-    return self.full
-end
 
 function Node:selected(x, y)
     return util.pointInCircle(x, y, self.circle) and self.connections[1]:is_full()
 end
 
-function Node:on_mouse_down(x, y)
+function Node:on_mouse_down()--x, y)
     self.drawable:progress()
 end
 
 function Node:on_mouse_up()
-    if not self.full then
+    if not self.node_full then
         self.drawable:regress()
     end
 end
