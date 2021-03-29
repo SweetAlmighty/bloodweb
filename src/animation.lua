@@ -30,7 +30,7 @@ function Animation:draw(x, y, rot, sx, sy, ox, oy)
 end
 
 function Animation:update(dt)
-    self.peachyAnim:update(dt)
+    self.peachyAnim:update(dt * 100)
 end
 
 function Animation:progress()

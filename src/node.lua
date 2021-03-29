@@ -1,5 +1,5 @@
-require('src/Animation')
-require('src/ItemBox')
+require('src/animation')
+require('src/item_box')
 
 Node = Object:extend()
 
@@ -17,7 +17,7 @@ function Node:new(x, y)
         end
     )
 
-    self.max_edges = util.randomChoice({ 1, 2, 3 })
+    self.max_edges = util.randomChoice({ 1, 2 })
     self.dimension = self.drawable:get_dimensions()
 
     self.circle = {
