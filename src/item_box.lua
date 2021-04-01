@@ -1,5 +1,19 @@
 ItemBox = Object:extend()
 
+local border = {
+    square = 0,
+    diamond = 2,
+    hexagon = 3
+}
+
+local rarity = {
+    common = 1,
+    uncommon = 2,
+    rare = 3,
+    very_rare = 4,
+    ultra_rare = 5
+}
+
 local rarity_colors = {
     { r = 63/255,  g = 47/255,  b = 34/255,  a = 1 }, -- brown: 63, 47, 34
     { r = 160/255, g = 135/255, b = 48/255,  a = 1 }, -- yellow: 160, 135, 48
@@ -9,91 +23,50 @@ local rarity_colors = {
 }
 
 local contents = {
-    {
-        { '', 1, 2, { 2, 2, 2, 3, 3, 4 }, },
-        { '', 1, 3, { 2, 2, 2, 3, 3, 4 }, },
-        { '', 1, 1, { 2, 2, 2, 3, 3, 4 }, }
+    { -- Items
+        { border.square, 0, 2, { rarity.common, rarity.uncommon, rarity.rare, rarity.very_rare }, },
+        { border.square, 0, 3, { rarity.rare, rarity.very_rare, rarity.ultra_rare }, },
+        { border.square, 0, 4, { rarity.very_rare, rarity.ultra_rare }, },
+        { border.square, 0, 5, { rarity.common, rarity.uncommon, rarity.rare, rarity.very_rare }, }
     },
-    {
-        { '', 0, 1, { 1, 1, 1, 1, 2, 2, 2, 3, 3, 4 }, },
-        { '', 0, 2, { 3, 3, 3, 4, 4, 5 }, },
-        { '', 0, 3, { 3, 3, 3, 4, 4, 5 }, }
+    { -- Add-ons
+        { border.square, 1, 2, { rarity.uncommon }, },
+        { border.square, 1, 3, { rarity.uncommon }, },
+        { border.square, 1, 4, { rarity.common }, },
+        { border.square, 1, 5, { rarity.common }, }
     },
-    {
-        { '', 2, 1, { 2 }, },
-        { '', 2, 2, { 2, 2, 3 }, },
-        { '', 2, 3, { 1, 1, 1, 2, 2, 3 } }
+    { -- Perks
+        { border.diamond, 2, 2, { rarity.uncommon, rarity.rare, rarity.very_rare }, },
+        { border.diamond, 3, 3, { rarity.uncommon, rarity.rare, rarity.very_rare }, },
+        { border.diamond, 2, 4, { rarity.uncommon, rarity.rare, rarity.very_rare }, },
+        { border.diamond, 2, 5, { rarity.uncommon, rarity.rare, rarity.very_rare }, }
+    },
+    { -- Offerings
+        { border.hexagon, 3, 2, { rarity.uncommon }, },
+        { border.hexagon, 3, 3, { rarity.uncommon }, },
+        { border.hexagon, 3, 4, { rarity.uncommon, rarity.rare }, },
+        { border.hexagon, 3, 5, { rarity.common, rarity.uncommon, rarity.rare }, }
     }
---[[
-    perks = {
-        saboteur = {
-            text = '',
-            border = 1,
-            colors = { 2, 2, 2, 3, 3, 4 },
-        },
-        instinct = {
-            text = '',
-            border = 1,
-            colors = { 2, 2, 2, 3, 3, 4 },
-        },
-        obsession = {
-            text = '',
-            border = 1,
-            colors = { 2, 2, 2, 3, 3, 4 },
-        }
-    },
-    addons = {
-        rag = {
-            text = '',
-            border = 0,
-            colors = { 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 5 },
-        },
-        cord = {
-            text = '',
-            border = 0,
-            colors = { 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 5 },
-        },
-        token = {
-            text = '',
-            border = 0,
-            colors = { 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 5 },
-        }
-    },
-    offerings = {
-        cake = {
-            text = '',
-            border = 2,
-            colors = { 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 5 },
-        },
-        pouch = {
-            text = '',
-            border = 2,
-            colors = { 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 5 },
-        },
-        envelope = {
-            text = '',
-            border = 2,
-            colors = { 1, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 4, 5 }
-        }
-    }
-]]
 }
 
 function ItemBox:new(x, y)
     self.position = Vector(x, y)
-    
+
     self.type = util.randomChoice(contents)
     self.item = util.randomChoice(self.type)
-    
+
     self.image = love.graphics.newImage("assets/imgs/items.png")
     self.image:setFilter("nearest", "nearest")
-    
+
     self.rarity = util.randomChoice(util.shuffle(self.item[4]))
-    
+
+    local width, height = self.image:getWidth(), self.image:getHeight()
+
     self.offset = Vector(16, 16)
     self.color = rarity_colors[self.rarity]
-    self.background = love.graphics.newQuad(32 * self.item[2], 0, 32, 32, 96, 128)
-    self.border = love.graphics.newQuad(32 * self.item[2], 32 * self.item[3], 32, 32, 96, 128)
+    self.border = love.graphics.newQuad(32 * self.item[1], 32, 32, 32, width, height)
+    self.background = love.graphics.newQuad(32 * self.item[1], 0, 32, 32, width, height)
+    self.icon = love.graphics.newQuad(32 * self.item[2], 32 * self.item[3], 32, 32, width, height)
 end
 
 function ItemBox:draw()
@@ -101,4 +74,5 @@ function ItemBox:draw()
     love.graphics.draw(self.image, self.background, self.position.x - self.offset.x, self.position.y - self.offset.y)
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.draw(self.image, self.border, self.position.x - self.offset.x, self.position.y - self.offset.y)
+    love.graphics.draw(self.image, self.icon, self.position.x - self.offset.x, self.position.y - self.offset.y)
 end

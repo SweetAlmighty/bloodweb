@@ -8,7 +8,7 @@ function Animation:new(name, done_callback)
         love.graphics.newImage("assets/imgs/"..name..".png"),
         "Tag"
     )
-    
+
     self.peachyAnim:pause()
 
     self.dimensions = Vector(self.peachyAnim:getWidth(), self.peachyAnim:getHeight())

@@ -3,6 +3,18 @@ require('src/item_box')
 
 Node = Object:extend()
 
+local north = Vector(0, 1)
+local south = Vector(0, -1)
+
+local directions = {
+    north,
+    north:rotated(math.pi/3),
+    north:rotated(math.pi/1.5),
+    south,
+    south:rotated(math.pi/3),
+    south:rotated(math.pi/1.5),
+}
+
 function Node:new(x, y)
     self.directions = { }
     self.connections = { }
@@ -38,7 +50,7 @@ function Node:add_connection(node, direction, edge)
     self.edge = edge
     self.connections[#self.connections+1] = node
     self.directions[#self.directions+1] = direction
-    
+
     self:rotate_towards(node)
 end
 
@@ -54,7 +66,7 @@ function Node:get_position() return self.position end
 function Node:determine_direction()
     if #self.connections == self.max_edges then return nil end
 
-    local direction = util.determineDirection()
+    local direction = util.randomChoice(directions)
 
     for _, v in pairs(self.directions) do
         if v == direction then return nil end
@@ -70,7 +82,8 @@ function Node:selected(x, y)
     return util.pointInCircle(x, y, self.circle) and self.connections[1]:is_full()
 end
 
-function Node:on_mouse_down()--x, y)
+--x, y
+function Node:on_mouse_down()
     self.drawable:progress()
 end
 
