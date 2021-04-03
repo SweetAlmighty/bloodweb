@@ -9,6 +9,8 @@ function Bloodweb:new()
     Bloodweb.super:new()
 
     self.root = self:add_node(200, 200, true)
+    
+    -- TODO: Fix Drawable Hack (implement Root class?)
     self.root.drawable = Image('center', self.root:get_position())
     self.root.drawable.update = function() end
     self.root.drawable.regress = function() end
@@ -34,7 +36,7 @@ function Bloodweb:breadth_first_search()
 
         local direction = node:determine_direction()
         while direction ~= nil do
-            local pos = node:get_position() + (direction * 46)
+            local pos = node:get_position() + (direction * 64)
             local new_node = self:add_node(pos.x, pos.y, false)
 
             local edge = Bloodweb.super:add_edge(node, new_node)
