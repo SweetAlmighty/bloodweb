@@ -41,6 +41,8 @@ function Node:new(x, y)
     self.item_box = ItemBox(x, y)
 end
 
+function Node:is_full() return self.node_full end
+
 function Node:rotate_towards(to)
     local toPos = to:get_position()
     self.rotation = util.lookAt(Vector(self.position.x, 400), toPos, self.position)
@@ -63,6 +65,8 @@ function Node:update(dt) self.drawable:update(dt) end
 
 function Node:get_position() return self.position end
 
+function Node:is_in_circle(x, y) return util.pointInCircle(x, y, self.circle) end
+
 function Node:determine_direction()
     if #self.connections == self.max_edges then return nil end
 
@@ -79,7 +83,7 @@ end
 
 
 function Node:selected(x, y)
-    return util.pointInCircle(x, y, self.circle) and self.connections[1]:is_full()
+    return self:is_in_circle(x, y) and self.connections[1]:is_full()
 end
 
 --x, y
