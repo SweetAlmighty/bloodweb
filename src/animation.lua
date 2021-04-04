@@ -18,7 +18,9 @@ function Animation:new(name, done_callback)
             local direction = self.peachyAnim.direction == 'forward'
 
             self.peachyAnim:pause()
-            self.peachyAnim:setFrame(direction and 33 or 1)
+            
+            -- Assumes an animation only has one tag.
+            self.peachyAnim:setFrame(direction and #self.peachyAnim.tag.frames or 1)
 
             if done_callback ~= nil then done_callback(direction) end
         end
@@ -30,7 +32,7 @@ function Animation:draw(x, y, rot, sx, sy, ox, oy)
 end
 
 function Animation:update(dt)
-    self.peachyAnim:update(dt * 100)
+    self.peachyAnim:update(dt)
 end
 
 function Animation:progress()
