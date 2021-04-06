@@ -16,6 +16,7 @@ function love.draw()
 end
 
 function love.load(args)
+    love.audio.play(love.audio.newSource("assets/dbd.wav", "stream"))
     if arg[#arg] == "-debug" then require("mobdebug").start() end
     math.randomseed(os.time() + tonumber(tostring({}):sub(8)))
     lovesize.set(screen_width, screen_height)
