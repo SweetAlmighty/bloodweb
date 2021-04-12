@@ -1,73 +1,76 @@
-local util = require('src/util')
-local node = require('src/node');
-local image = require('src/image');
+require('src/node')
+require('src/root')
+require('src/graph')
+require('src/image')
 
-local maxEdges = util.randomChoice({ 0, 1, 2, 3, 4 });
+Bloodweb = Graph:extend();
 
-local nodes = { }
-local edges = { }
-local bloodweb = { }
-local directions = { };
-local position = Vector(200, 200);
-local center = image.new('center');
-local centerNode = node.new(position.x, position.y);
-local determineDirection = function()
-    if #edges == maxEdges then return nil; end
-
-    local direction = util.determineDirection();
-
-    for k, v in pairs(directions) do
-        if v == direction then
-            return nil;
-        end
-    end
-
-    directions[#directions+1] = direction;
-    
-    return directions[#directions]
+function Bloodweb:new()
+    Bloodweb.super:new()
+    self:add_node(200, 200, true)
+    self:breadth_first_search()
 end
 
-bloodweb.new = function()
-    local _web = { }
+function Bloodweb:add_node(x, y, full)
+    local node = nil
+    if full then
+        node = Root(x, y)
+        self.nodes[#self.nodes+1] = node
+    else node = Bloodweb.super:add_node(x, y) end
+    return node
+end
 
-    _web.Init = function()
-        for i=1, maxEdges do
-            local dir = determineDirection();
-            if dir ~= nil then
-                local n, e = centerNode.AddNode(dir);
-                nodes[#nodes+1] = n;
-                edges[#edges+1] = e;
-                i = i + 1;
+function Bloodweb:breadth_first_search()
+    local stack = { }
+    stack[#stack+1] = self.nodes[1]
+
+    while #stack ~= 0 do
+        local node = stack[#stack]
+        table.remove(stack, #stack)
+
+        local direction = node:determine_direction()
+
+        while direction ~= nil do
+            local continue = true
+            local new_pos = node:get_position() + (direction * 58)
+
+            for k, v in pairs(self.nodes) do
+                if v:is_in_circle(new_pos.x, new_pos.y) then
+                    continue = false
+                    break
+                end
             end
+            
+            if continue then
+                local pos = node:get_position() + (direction * 64)
+                local new_node = self:add_node(pos.x, pos.y, false)
+                local edge = Bloodweb.super:add_edge(node, new_node)
+
+                new_node:add_connection(node, -direction, edge)
+
+                stack[#stack+1] = new_node
+            end
+
+            direction = node:determine_direction()
         end
     end
-    
-    _web.Draw = function()
-        for k, v in pairs(edges) do v.Draw(); end
-        for k, v in pairs(nodes) do v.Draw(); end
-        center.Draw();
-    end
-
-    _web.Update = function(dt)
-        for k, v in pairs(nodes) do v.Update(dt); end
-        for k, v in pairs(edges) do v.Update(dt); end
-    end
-
-    _web.MouseUp = function()
-        for k, v in pairs(nodes) do
-            v.MouseUp();
-        end
-    end
-
-    _web.MouseDown = function(x, y)
-        for k, v in pairs(nodes) do
-            v.MouseDown(x, y);
-        end
-    end
-
-    _web.Init();
-
-    return _web
 end
 
-return bloodweb
+function Bloodweb:draw()
+    for _, v in pairs(Bloodweb.super.edges) do v:draw() end
+    for _, v in pairs(Bloodweb.super.nodes) do v:draw() end
+end
+
+function Bloodweb:update(dt)
+    for _, v in pairs(Bloodweb.super.edges) do v:update(dt) end
+    for _, v in pairs(Bloodweb.super.nodes) do v:update(dt) end
+end
+
+function Bloodweb:mouse_up()
+    for _, v in pairs(Bloodweb.super.edges) do v:on_mouse_up() end
+    for _, v in pairs(Bloodweb.super.nodes) do v:on_mouse_up() end
+end
+
+function Bloodweb:mouse_down(x, y)
+    for _, v in pairs(Bloodweb.super.edges) do v:on_mouse_down(x, y) end
+end

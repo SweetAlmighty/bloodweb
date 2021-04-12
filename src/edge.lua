@@ -1,34 +1,41 @@
-local util = require('src/util')
-local animation = require('src/animation')
+Edge = Object:extend()
 
---[[
-local animDone = false;
-local done = function(direction)
-    animDone = true;
+function Edge:new(from, to)
+    self.connections = { from, to }
+
+    self.drawable = Animation('stem',
+        function(forward)
+            self.edge_full = forward
+            if forward then self.connections[2]:on_mouse_down() end
+        end
+    )
+
+    self.edge_full = false;
+    self.position = to:get_position()
+    self.dimension = self.drawable:get_dimensions()
+
+    local from_pos = from:get_position()
+    self.rotation = util.lookAt(Vector(self.position.x, 400), from_pos, self.position)
+
+    -- Push back into center
+    local direction = (self.position - from_pos).normalized
+    self.position = self.position + (16 * -direction)
 end
-]]
 
-return {
-    new = function(to, from)
-        local nodes = { to, from }
-        local stem = animation.new('stem');
+function Edge:draw()
+    self.drawable:draw(self.position.x, self.position.y, self.rotation, 1, 1, self.dimension.x/2, 0)
+end
 
-        local toPos = to.Position();
-        local fromPos = from.Position();
-        local dimension = stem.Dimensions();
-        local _to = (toPos - fromPos).normalized;
+function Edge:update(dt) self.drawable:update(dt) end
 
-        local angle = util.lookAt(Vector(toPos.x, 400), fromPos, toPos);
-
-        -- Push back into center
-        toPos = toPos + (15 * -_to)
-        
-        return {
-            Update = function(dt) stem.Update(dt); end,
-            GetNode = function(index) return nodes[index]; end,
-            Draw = function()
-                stem.Draw(toPos.x, toPos.y, angle, 1, 1, dimension.w/2, 0);
-            end,
-        }
+function Edge:on_mouse_down(x, y)
+    if self.connections[2]:selected(x, y) then
+        self.drawable:progress()
     end
-}
+end
+
+function Edge:on_mouse_up(from_node)
+    if from_node or not self.edge_full then
+        self.drawable:regress()
+    end
+end

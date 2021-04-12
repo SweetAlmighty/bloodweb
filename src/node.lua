@@ -1,66 +1,98 @@
-local util = require('src/util');
-local edge = require('src/edge');
-local animation = require('src/animation');
+require('src/animation')
+require('src/item_box')
 
-local node = { }
+Node = Object:extend()
 
---[[
-local animDone = false;
-local done = function(direction)
-    animDone = true;
-end
-]]
+local north = Vector(0, 1)
+local south = Vector(0, -1)
 
-local mouseDown = false;
+local directions = {
+    north,
+    north:rotated(math.pi/3),
+    north:rotated(math.pi/1.5),
+    south,
+    south:rotated(math.pi/3),
+    south:rotated(math.pi/1.5),
+}
 
-node.new = function(x, y)
-    local _node = { }
-    local edges = { };
-    local directions = { };
-    local position = Vector(x, y);
-    local circle = animation.new('circle');
-    local dimension = circle.Dimensions();
-    local maxEdges = util.randomChoice({ 0, 1, 2, 3, 4 });
+function Node:new(x, y)
+    self.directions = { }
+    self.connections = { }
+    self.mouse_down = false
+    self.position = Vector(x, y)
+    self.drawable = Animation('circle',
+        function(forward)
+            self.node_full = forward
+            if not forward then
+                self.edge:on_mouse_up(true)
+            end
+        end
+    )
 
-    local _circle = {
+    self.max_edges = util.randomChoice({ 1, 2 })
+    self.dimension = self.drawable:get_dimensions()
+
+    self.circle = {
         x = x,
         y = y,
         radius = 16
     }
 
-    local to = Vector(x, 400)
-    local from = Vector(200, 200)
-    local rot = util.lookAt(to, from, position);
-
-    _node.AddNode = function(dir)
-        local pos = position + (dir * 33);
-        local newNode = node.new(pos.x, pos.y);
-        local edge = edge.new(newNode, _node);
-        newNode.AddEdge(edge);
-        return newNode, edge;
-    end
-
-    _node.MouseUp = function()
-        mouseDown = false;
-        circle.Regress();
-    end
-
-    _node.Position = function() return position; end
-
-    _node.Update = function(dt) circle.Update(dt); end
-
-    _node.AddEdge = function(edge) edges[#edges+1] = edge; end 
-
-    _node.Draw = function() circle.Draw(position.x, position.y, rot, 1, 1, dimension.w/2, dimension.h/2); end
-
-    _node.MouseDown = function(x, y)
-        mouseDown = true;
-        if util.pointInCircle(x, y, _circle) then
-            circle.Progress();
-        end
-    end
-
-    return _node;
+    self.item_box = ItemBox(x, y)
 end
 
-return node;
+function Node:is_full() return self.node_full end
+
+function Node:rotate_towards(to)
+    local toPos = to:get_position()
+    self.rotation = util.lookAt(Vector(self.position.x, 400), toPos, self.position)
+end
+
+function Node:add_connection(node, direction, edge)
+    self.edge = edge
+    self.connections[#self.connections+1] = node
+    self.directions[#self.directions+1] = direction
+
+    self:rotate_towards(node)
+end
+
+function Node:draw()
+    self.drawable:draw(self.position.x, self.position.y, self.rotation, 1, 1, self.dimension.x/2, self.dimension.y/2)
+    self.item_box:draw()
+end
+
+function Node:update(dt) self.drawable:update(dt) end
+
+function Node:get_position() return self.position end
+
+function Node:is_in_circle(x, y) return util.pointInCircle(x, y, self.circle) end
+
+function Node:determine_direction()
+    if #self.connections == self.max_edges then return nil end
+
+    local direction = util.randomChoice(directions)
+
+    for _, v in pairs(self.directions) do
+        if v == direction then return nil end
+    end
+
+    self.directions[#self.directions+1] = direction
+
+    return self.directions[#self.directions]
+end
+
+
+function Node:selected(x, y)
+    return self:is_in_circle(x, y) and self.connections[1]:is_full()
+end
+
+--x, y
+function Node:on_mouse_down()
+    self.drawable:progress()
+end
+
+function Node:on_mouse_up()
+    if not self.node_full then
+        self.drawable:regress()
+    end
+end
