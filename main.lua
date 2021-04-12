@@ -1,7 +1,7 @@
 util = require('src/util')
-Object = require('library/classic')
-Vector = require('library/brinevector')
-local lovesize = require("library/lovesize")
+Object = require('lib/classic/classic')
+Vector = require('lib/brinevector/brinevector')
+local lovesize = require("lib/lovesize/lovesize")
 
 require('src/bloodweb')
 
