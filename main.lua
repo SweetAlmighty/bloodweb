@@ -3,15 +3,17 @@ Object = require('library/classic')
 Vector = require('library/brinevector')
 local lovesize = require("library/lovesize")
 
+require('src/menu')
 require('src/bloodweb')
 
-local screen_width = 400
-local screen_height = 400
+local screen_width = 640
+local screen_height = 360
 
 function love.draw()
     love.graphics.clear(0.5, 0.5, 0.5, 1)
     lovesize.begin()
         bloodweb:draw()
+        menu:draw()
     lovesize.finish()
 end
 
@@ -20,6 +22,7 @@ function love.load(args)
     math.randomseed(os.time() + tonumber(tostring({}):sub(8)))
     lovesize.set(screen_width, screen_height)
     bloodweb = Bloodweb()
+    menu = Menu()
 end
 
 function love.mousepressed(x, y, button)
