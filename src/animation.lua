@@ -1,4 +1,4 @@
-local peachy = require("library/peachy/peachy")
+local peachy = require("lib/peachy/peachy")
 
 Animation = Object:extend()
 
