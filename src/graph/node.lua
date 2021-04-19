@@ -1,5 +1,5 @@
 require('src/animation')
-require('src/item_box')
+require('src/itembox')
 
 Node = Object:extend()
 
