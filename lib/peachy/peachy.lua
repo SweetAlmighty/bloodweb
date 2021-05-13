@@ -30,7 +30,7 @@ local peachy = {
   ]]
 }
 
-local PATH = 'library/peachy'
+local PATH = 'lib/peachy'
 local json = require(PATH.."/lib/json")
 local cron = require(PATH.."/lib/cron")
 

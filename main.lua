@@ -4,14 +4,16 @@ Vector = require('lib/brinevector/brinevector')
 local lovesize = require("lib/lovesize/lovesize")
 
 require('src/bloodweb')
+require('src/background')
 
-local screen_width = 400
-local screen_height = 400
+screen_width = 640
+screen_height = 360
 
 function love.draw()
     love.graphics.clear(0.5, 0.5, 0.5, 1)
     lovesize.begin()
         bloodweb:draw()
+        background:draw()
     lovesize.finish()
 end
 
@@ -20,6 +22,7 @@ function love.load(args)
     math.randomseed(os.time() + tonumber(tostring({}):sub(8)))
     lovesize.set(screen_width, screen_height)
     bloodweb = Bloodweb()
+    background = Background()
 end
 
 function love.mousepressed(x, y, button)
@@ -29,7 +32,10 @@ function love.mousepressed(x, y, button)
     end
 end
 
-function love.update(dt) bloodweb:update(dt) end
+function love.update(dt)
+    bloodweb:update(dt)
+    background:update(dt)
+end
 
 -- x, y, dx, dy, istouch
 function love.mousemoved() end

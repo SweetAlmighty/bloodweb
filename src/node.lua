@@ -1,5 +1,5 @@
 require('src/animation')
-require('src/item_box')
+require('src/itembox')
 
 Node = Object:extend()
 
@@ -38,7 +38,7 @@ function Node:new(x, y)
         radius = 16
     }
 
-    self.item_box = ItemBox(x, y)
+    self.itembox = ItemBox(x, y)
 end
 
 function Node:is_full() return self.node_full end
@@ -58,7 +58,7 @@ end
 
 function Node:draw()
     self.drawable:draw(self.position.x, self.position.y, self.rotation, 1, 1, self.dimension.x/2, self.dimension.y/2)
-    self.item_box:draw()
+    self.itembox:draw()
 end
 
 function Node:update(dt) self.drawable:update(dt) end

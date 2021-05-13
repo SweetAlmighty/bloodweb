@@ -7,7 +7,7 @@ Bloodweb = Graph:extend();
 
 function Bloodweb:new()
     Bloodweb.super:new()
-    self:add_node(200, 200, true)
+    self:add_node(screen_width/4, screen_height/2, true)
     self:breadth_first_search()
 end
 
