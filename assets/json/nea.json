@@ -1,0 +1,64 @@
+{ "frames": [
+   {
+    "filename": "nea 0.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 101, "h": 262 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 101, "h": 262 },
+    "sourceSize": { "w": 101, "h": 262 },
+    "duration": 150
+   },
+   {
+    "filename": "nea 1.aseprite",
+    "frame": { "x": 101, "y": 0, "w": 101, "h": 262 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 101, "h": 262 },
+    "sourceSize": { "w": 101, "h": 262 },
+    "duration": 150
+   },
+   {
+    "filename": "nea 2.aseprite",
+    "frame": { "x": 202, "y": 0, "w": 101, "h": 262 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 101, "h": 262 },
+    "sourceSize": { "w": 101, "h": 262 },
+    "duration": 150
+   },
+   {
+    "filename": "nea 3.aseprite",
+    "frame": { "x": 303, "y": 0, "w": 101, "h": 262 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 101, "h": 262 },
+    "sourceSize": { "w": 101, "h": 262 },
+    "duration": 150
+   },
+   {
+    "filename": "nea 4.aseprite",
+    "frame": { "x": 404, "y": 0, "w": 101, "h": 262 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 101, "h": 262 },
+    "sourceSize": { "w": 101, "h": 262 },
+    "duration": 150
+   }
+ ],
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.27",
+  "image": "nea.png",
+  "format": "RGBA8888",
+  "size": { "w": 505, "h": 262 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Tag", "from": 0, "to": 4, "direction": "pingpong" }
+  ],
+  "layers": [
+   { "name": "Layer 2", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

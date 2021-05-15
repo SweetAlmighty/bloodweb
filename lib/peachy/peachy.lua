@@ -107,9 +107,9 @@ function peachy:setTag(tag)
   self.frameIndex = nil
   self.direction = self.tag.direction
 
-  if self.direction == "pingpong" then
-    self.direction = "forward"
-  end
+  --if self.direction == "pingpong" then
+  --  self.direction = "forward"
+  --end
 
   self:nextFrame()
 end

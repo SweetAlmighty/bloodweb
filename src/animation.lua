@@ -13,18 +13,21 @@ function Animation:new(name, done_callback)
 
     self.dimensions = Vector(self.peachyAnim:getWidth(), self.peachyAnim:getHeight())
 
-    self.peachyAnim:onLoop(
-        function()
-            local direction = self.peachyAnim.direction == 'forward'
+    if self.peachyAnim.direction ~= 'pingpong' then
+        local onLoop = 
+            function()
+                local direction = self.peachyAnim.direction == 'forward'
 
-            self.peachyAnim:pause()
-            
-            -- Assumes an animation only has one tag.
-            self.peachyAnim:setFrame(direction and #self.peachyAnim.tag.frames or 1)
+                self.peachyAnim:pause()
+                
+                -- Assumes an animation only has one tag.
+                self.peachyAnim:setFrame(direction and #self.peachyAnim.tag.frames or 1)
 
-            if done_callback ~= nil then done_callback(direction) end
-        end
-    )
+                if done_callback ~= nil then done_callback(direction) end
+            end
+
+        self.peachyAnim:onLoop(onLoop)
+    end
 end
 
 function Animation:draw(x, y, rot, sx, sy, ox, oy)
