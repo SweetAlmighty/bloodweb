@@ -12,8 +12,8 @@ screen_height = 360
 function love.draw()
     love.graphics.clear(0.5, 0.5, 0.5, 1)
     lovesize.begin()
-        bloodweb:draw()
         background:draw()
+        bloodweb:draw()
     lovesize.finish()
 end
 
