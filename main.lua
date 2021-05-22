@@ -14,8 +14,8 @@ function love.draw()
     love.graphics.clear(0.5, 0.5, 0.5, 1)
     lovesize.begin()
         background:draw()
-        bloodweb:draw()
         menu:draw()
+        bloodweb:draw()
     lovesize.finish()
 end
 

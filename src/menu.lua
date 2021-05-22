@@ -1,10 +1,10 @@
 local icon_type = {
-    killer = 1,
-    bloodweb = 2,
-    loadout = 3,
-    store = 4,
-    customize = 5,
-    survivors = 6
+    survivors = 1,
+    loadout = 2,
+    bloodweb = 3,
+    customize = 4,
+    killer = 5,
+    store = 6
 }
 
 Menu = Object:extend();
@@ -12,6 +12,7 @@ Menu = Object:extend();
 function Menu:new()
     self.icons = { }
     self.offset = Vector(16, 16)
+    self.background = Image('menu_background', Vector(130, 160))
     self.image = love.graphics.newImage("assets/imgs/menu_icons.png")
     local width, height = self.image:getWidth(), self.image:getHeight()
     
@@ -25,6 +26,8 @@ end
 
 function Menu:draw()
     love.graphics.setColor(1, 1, 1, 1)
+    
+    self.background:draw()
     
     local iter = 0
     for _, v in pairs(self.icons) do
