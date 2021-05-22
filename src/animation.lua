@@ -38,6 +38,11 @@ function Animation:update(dt)
     self.peachyAnim:update(dt)
 end
 
+function Animation:replay()
+    self.peachyAnim:setFrame(1)
+    self.peachyAnim:play()
+end
+
 function Animation:progress()
     self.peachyAnim.direction = 'forward'
     self.peachyAnim:play()

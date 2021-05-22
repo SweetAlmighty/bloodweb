@@ -1,0 +1,73 @@
+{ "frames": [
+   {
+    "filename": "firepit 0.aseprite",
+    "frame": { "x": 0, "y": 0, "w": 165, "h": 176 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 165, "h": 176 },
+    "sourceSize": { "w": 165, "h": 176 },
+    "duration": 100
+   },
+   {
+    "filename": "firepit 1.aseprite",
+    "frame": { "x": 165, "y": 0, "w": 165, "h": 176 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 165, "h": 176 },
+    "sourceSize": { "w": 165, "h": 176 },
+    "duration": 100
+   },
+   {
+    "filename": "firepit 2.aseprite",
+    "frame": { "x": 330, "y": 0, "w": 165, "h": 176 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 165, "h": 176 },
+    "sourceSize": { "w": 165, "h": 176 },
+    "duration": 100
+   },
+   {
+    "filename": "firepit 3.aseprite",
+    "frame": { "x": 495, "y": 0, "w": 165, "h": 176 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 165, "h": 176 },
+    "sourceSize": { "w": 165, "h": 176 },
+    "duration": 100
+   },
+   {
+    "filename": "firepit 4.aseprite",
+    "frame": { "x": 660, "y": 0, "w": 165, "h": 176 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 165, "h": 176 },
+    "sourceSize": { "w": 165, "h": 176 },
+    "duration": 100
+   },
+   {
+    "filename": "firepit 5.aseprite",
+    "frame": { "x": 825, "y": 0, "w": 165, "h": 176 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 165, "h": 176 },
+    "sourceSize": { "w": 165, "h": 176 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.27",
+  "image": "firepit.png",
+  "format": "I8",
+  "size": { "w": 990, "h": 176 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Tag", "from": 0, "to": 5, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
