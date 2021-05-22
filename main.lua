@@ -3,6 +3,7 @@ Object = require('lib/classic/classic')
 Vector = require('lib/brinevector/brinevector')
 local lovesize = require("lib/lovesize/lovesize")
 
+require('src/menu')
 require('src/bloodweb')
 require('src/background')
 
@@ -14,6 +15,7 @@ function love.draw()
     lovesize.begin()
         background:draw()
         bloodweb:draw()
+        menu:draw()
     lovesize.finish()
 end
 
@@ -21,6 +23,7 @@ function love.load(args)
     if arg[#arg] == "-debug" then require("mobdebug").start() end
     math.randomseed(os.time() + tonumber(tostring({}):sub(8)))
     lovesize.set(screen_width, screen_height)
+    menu = Menu()
     bloodweb = Bloodweb()
     background = Background()
 end
