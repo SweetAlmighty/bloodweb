@@ -6,7 +6,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 101, "h": 262 },
     "sourceSize": { "w": 101, "h": 262 },
-    "duration": 150
+    "duration": 100
    },
    {
     "filename": "nea 1.aseprite",
@@ -15,7 +15,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 101, "h": 262 },
     "sourceSize": { "w": 101, "h": 262 },
-    "duration": 150
+    "duration": 100
    },
    {
     "filename": "nea 2.aseprite",
@@ -24,7 +24,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 101, "h": 262 },
     "sourceSize": { "w": 101, "h": 262 },
-    "duration": 150
+    "duration": 100
    },
    {
     "filename": "nea 3.aseprite",
@@ -33,7 +33,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 101, "h": 262 },
     "sourceSize": { "w": 101, "h": 262 },
-    "duration": 150
+    "duration": 100
    },
    {
     "filename": "nea 4.aseprite",
@@ -42,7 +42,7 @@
     "trimmed": false,
     "spriteSourceSize": { "x": 0, "y": 0, "w": 101, "h": 262 },
     "sourceSize": { "w": 101, "h": 262 },
-    "duration": 150
+    "duration": 100
    }
  ],
  "meta": {
@@ -54,11 +54,6 @@
   "scale": "1",
   "frameTags": [
    { "name": "Tag", "from": 0, "to": 4, "direction": "pingpong" }
-  ],
-  "layers": [
-   { "name": "Layer 2", "opacity": 255, "blendMode": "normal" }
-  ],
-  "slices": [
   ]
  }
 }
