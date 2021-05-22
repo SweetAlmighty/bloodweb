@@ -21,6 +21,7 @@ end
 
 function love.load(args)
     local source = love.audio.newSource("assets/audio/dbd.wav", "stream")
+    source:setVolume(0.5)
     source:setLooping(true)
     love.audio.play(source)
 

@@ -15,14 +15,21 @@ local directions = {
     south:rotated(math.pi/1.5),
 }
 
+local source = love.audio.newSource("assets/audio/node_complete.wav", "stream")
+
 function Node:new(x, y)
     self.directions = { }
     self.connections = { }
     self.mouse_down = false
     self.position = Vector(x, y)
+
     self.drawable = Animation('circle',
         function(forward)
-            self.node_full = forward
+            if not self.node_full and forward then
+                love.audio.play(source)
+                self.node_full = forward
+            end
+        
             if not forward then
                 self.edge:on_mouse_up(true)
             end

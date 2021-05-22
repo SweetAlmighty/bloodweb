@@ -40,7 +40,7 @@ function Bloodweb:breadth_first_search()
                     break
                 end
             end
-            
+
             if continue then
                 local pos = node:get_position() + (direction * 64)
                 local new_node = self:add_node(pos.x, pos.y, false)

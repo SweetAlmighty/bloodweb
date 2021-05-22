@@ -15,7 +15,7 @@ function Menu:new()
     self.background = Image('menu_background', Vector(130, 160))
     self.image = love.graphics.newImage("assets/imgs/menu_icons.png")
     local width, height = self.image:getWidth(), self.image:getHeight()
-    
+
     local j, k = 0, 0
     for i=0, 5, 1 do
         j = i > 2 and 32 or 0
@@ -26,9 +26,9 @@ end
 
 function Menu:draw()
     love.graphics.setColor(1, 1, 1, 1)
-    
+
     self.background:draw()
-    
+
     local iter = 0
     for _, v in pairs(self.icons) do
         iter = iter + 1

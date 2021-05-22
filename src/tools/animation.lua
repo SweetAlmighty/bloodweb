@@ -14,12 +14,12 @@ function Animation:new(name, done_callback)
     self.dimensions = Vector(self.peachyAnim:getWidth(), self.peachyAnim:getHeight())
 
     if self.peachyAnim.direction ~= 'pingpong' then
-        local onLoop = 
+        local onLoop =
             function()
                 local direction = self.peachyAnim.direction == 'forward'
 
                 self.peachyAnim:pause()
-                
+
                 -- Assumes an animation only has one tag.
                 self.peachyAnim:setFrame(direction and #self.peachyAnim.tag.frames or 1)
 
