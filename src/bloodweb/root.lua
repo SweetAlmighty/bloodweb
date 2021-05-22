@@ -1,4 +1,4 @@
-require('src/node')
+require('src/graph/node')
 
 Root = Node:extend()
 

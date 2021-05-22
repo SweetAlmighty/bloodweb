@@ -1,5 +1,5 @@
-require('src/animation')
-require('src/itembox')
+require('src/tools/animation')
+require('src/bloodweb/itembox')
 
 Node = Object:extend()
 

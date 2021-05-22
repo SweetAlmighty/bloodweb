@@ -1,4 +1,4 @@
-require('src/edge')
+require('src/graph/edge')
 
 Graph = Object:extend()
 

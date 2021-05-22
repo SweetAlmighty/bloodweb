@@ -1,10 +1,10 @@
-util = require('src/util')
+util = require('src/tools/util')
 Object = require('lib/classic/classic')
 Vector = require('lib/brinevector/brinevector')
 local lovesize = require("lib/lovesize/lovesize")
 
 require('src/menu')
-require('src/bloodweb')
+require('src/bloodweb/bloodweb')
 require('src/background')
 
 screen_width = 640

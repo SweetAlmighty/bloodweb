@@ -1,7 +1,7 @@
-require('src/node')
-require('src/root')
-require('src/graph')
-require('src/image')
+require('src/graph/node')
+require('src/graph/graph')
+require('src/tools/image')
+require('src/bloodweb/root')
 
 Bloodweb = Graph:extend();
 
