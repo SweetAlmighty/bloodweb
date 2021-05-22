@@ -20,6 +20,10 @@ function love.draw()
 end
 
 function love.load(args)
+    local source = love.audio.newSource("assets/audio/dbd.wav", "stream")
+    source:setLooping(true)
+    love.audio.play(source)
+
     if arg[#arg] == "-debug" then require("mobdebug").start() end
     math.randomseed(os.time() + tonumber(tostring({}):sub(8)))
     lovesize.set(screen_width, screen_height)
