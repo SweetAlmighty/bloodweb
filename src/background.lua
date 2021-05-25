@@ -1,7 +1,7 @@
 Background = Object:extend()
 
 function Background:new()
-    self.nea_position = Vector((screen_width/4)*3, 75)
+    self.nea_position = Vector(400, 75)
     self.nea = Animation('nea')
     self.nea:progress()
 
