@@ -6,7 +6,7 @@ Exploration on reactive UI functionality.
 All assets were created by me by me.
 
 ## Follow Development ##
-The Codecks page for the projects can be found [here](https://open.codecks.io/bloodweb).
+The Trello page for this project can be found [here](https://trello.com/b/pXnKa4Dr/bloodweb).
 
 ## Packages ##
 This project utilizing the following Lua libraries:
