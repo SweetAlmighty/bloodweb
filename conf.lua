@@ -3,7 +3,7 @@ function love.conf(t)
     t.console = false
 
     t.window.title = "Bloodweb"
-    t.window.width = 640 
+    t.window.width = 640
     t.window.height = 360
     t.window.resizable = false
     t.window.icon = "assets/imgs/icon.png"
@@ -15,4 +15,4 @@ function love.conf(t)
     t.modules.physics = false
     t.modules.joystick = false
     t.accelerometerjoystick = false
-end	
+end
