@@ -14,3 +14,7 @@ This project utilizing the following Lua libraries:
 - [brinevector](https://github.com/novemberisms/brinevector)
 - [lovesize](https://github.com/RicardoBusta/lovesize)
 - [classic](https://github.com/rxi/classic)
+
+## Art ##
+This project utilizes art assets from the following creators:
+- Smoke particle pack by Kenney Vleugels (www.kenney.nl)
