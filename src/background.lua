@@ -7,7 +7,7 @@ function Background:new()
 
     self.firepit_position = Vector(50, 100)
     self.firepit = Animation('firepit',
-        function(forward)
+        function()
             self.firepit:replay();
         end
     )

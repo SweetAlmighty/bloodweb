@@ -24,7 +24,8 @@ function Bloodweb:breadth_first_search()
     local stack = { }
     stack[#stack+1] = self.nodes[1]
 
-    while #stack ~= 0 do
+    local layers = 0
+    while layers ~= 2  do
         local node = stack[#stack]
         table.remove(stack, #stack)
 
@@ -34,7 +35,7 @@ function Bloodweb:breadth_first_search()
             local continue = true
             local new_pos = node:get_position() + (direction * 58)
 
-            for k, v in pairs(self.nodes) do
+            for _, v in pairs(self.nodes) do
                 if v:is_in_circle(new_pos.x, new_pos.y) then
                     continue = false
                     break
@@ -53,6 +54,8 @@ function Bloodweb:breadth_first_search()
 
             direction = node:determine_direction()
         end
+
+        layers = layers + 1
     end
 end
 
