@@ -16,7 +16,8 @@ function Menu:new()
     self.image = love.graphics.newImage("assets/imgs/menu_icons.png")
     local width, height = self.image:getWidth(), self.image:getHeight()
 
-    local j, k = 0, 0
+    local j = 0
+    local k = 0
     for i=0, 5, 1 do
         j = i > 2 and 32 or 0
         k = i > 2 and i - 3 or i
